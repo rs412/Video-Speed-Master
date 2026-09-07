@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root { --bd: #e3e2dd; --tx: #2c2c2a; --mu: #5f5e5a; --ac: #185fa5; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; width: 300px; padding: 14px;
+    font: 13px/1.5 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    color: var(--tx); background: #fff;
+  }
+  h1 { font-size: 13px; font-weight: 500; margin: 0 0 10px; }
+  .big { font: 500 28px/1 ui-monospace, Menlo, monospace; text-align: center; margin: 6px 0 2px; }
+  .hint { text-align: center; font-size: 11px; color: var(--mu); margin-bottom: 10px; }
+  input[type=range] { width: 100%; accent-color: var(--ac); }
+  .row { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+  button {
+    flex: 1; min-width: 52px; padding: 6px 0; font: 13px system-ui;
+    border: 1px solid var(--bd); border-radius: 8px; background: #faf9f6;
+    color: var(--tx); cursor: pointer;
+  }
+  button:hover { background: #f1efe8; }
+  button.on { background: #e6f1fb; border-color: #85b7eb; color: #0c447c; }
+  label { display: flex; align-items: center; justify-content: space-between;
+          padding: 5px 0; color: var(--mu); }
+  label span { color: var(--tx); }
+  label.feature { color: var(--tx); font-weight: 500; padding: 7px 8px;
+          background: #f3f7fb; border: 1px solid #d8e6f3; border-radius: 8px; }
+  #bgplayTip { margin: 8px 2px 0; }
+  input[type=number], select {
+    width: 88px; padding: 3px 6px; border: 1px solid var(--bd);
+    border-radius: 6px; font: 13px system-ui; color: var(--tx); background: #fff;
+  }
+  hr { border: 0; border-top: 1px solid var(--bd); margin: 12px 0; }
+  .tip { font-size: 11px; color: var(--mu); line-height: 1.6; }
+  kbd { background: #f1efe8; border: 1px solid var(--bd); border-radius: 4px;
+        padding: 0 4px; font: 11px ui-monospace, monospace; }
+</style>
+</head>
+<body>
+  <h1>Video Speed Master</h1>
+
+  <div class="big" id="val">1.00x</div>
+  <div class="hint" id="site"></div>
+
+  <input type="range" id="slider" min="0.07" max="8" step="0.01" value="1">
+
+  <div class="row" id="presets">
+    <button data-r="0.5">0.5x</button>
+    <button data-r="1">1x</button>
+    <button data-r="1.25">1.25x</button>
+    <button data-r="1.5">1.5x</button>
+    <button data-r="2">2x</button>
+    <button data-r="3">3x</button>
+  </div>
+
+  <hr>
+
+  <label>步进 <input type="number" id="step" min="0.01" max="2" step="0.05"></label>
+  <label>强制模式（抵抗站点重置） <input type="checkbox" id="force"></label>
+  <label>记住本站点速度 <input type="checkbox" id="remember"></label>
+  <label>显示屏显提示 <input type="checkbox" id="osd"></label>
+
+  <hr>
+  <label class="feature">后台播放 <input type="checkbox" id="bgplay"></label>
+  <div class="tip" id="bgplayTip">
+    离开标签页或切到别的窗口时，视频仍保持播放，不会被站点自动暂停。
+  </div>
+
+  <hr>
+  <label class="feature" style="display:block">作用范围</label>
+  <div class="row" id="scope">
+    <button data-s="global">全局</button>
+    <button data-s="tab">当前标签</button>
+  </div>
+  <div class="tip">
+    全局：设置应用到所有标签页；当前标签：仅本标签单独设置（可逐标签调整）。
+  </div>
+
+  <hr>
+  <div class="tip">
+    <kbd>Shift + ]</kbd> 加速 · <kbd>Shift + [</kbd> 减速 · <kbd>Shift + \</kbd> 复位
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
