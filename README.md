@@ -1,5 +1,7 @@
 # Video Speed Master
 
+![VSM](VideoSpeedMaster-Banner-Cool-1280x800.png)
+
 一款轻量浏览器扩展，让你对任意网页上的视频、音频随心变速，并支持在切走标签页后让视频继续后台播放。
 
 ## 功能特性
