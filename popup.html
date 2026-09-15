@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    --ac: #185fa5; --ac2: #3a8fd6; --tx: #23262b; --mu: #6b6f76;
+    --bd: #dde6f0; --card: #f5f9fd; --bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; width: 320px; padding: 0 0 6px;
+    font: 13px/1.5 system-ui, -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    color: var(--tx); background: var(--bg);
+  }
+  /* 头部品牌区 */
+  .hd {
+    display: flex; align-items: center; gap: 11px;
+    padding: 15px 16px;
+    background: linear-gradient(135deg, #185fa5, #3a8fd6);
+    color: #fff;
+  }
+  .logo {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(255,255,255,.20);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; line-height: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,.18) inset;
+  }
+  .name { font-weight: 600; font-size: 14px; letter-spacing: .2px; }
+  .sub { font-size: 11px; opacity: .85; margin-top: 1px; }
+
+  /* 速度区 */
+  .speed { padding: 16px 16px 4px; }
+  .big {
+    font: 600 32px/1 ui-monospace, Menlo, monospace; text-align: center;
+    background: linear-gradient(135deg, #185fa5, #3a8fd6);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin: 2px 0 4px;
+  }
+  .hint { text-align: center; font-size: 11px; color: var(--mu); min-height: 14px; margin-bottom: 10px; }
+  input[type=range] { width: 100%; accent-color: var(--ac); cursor: pointer; }
+
+  .row { display: flex; gap: 6px; flex-wrap: wrap; margin: 12px 0 4px; }
+  .row.presets {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;
+    margin: 12px 0 4px;
+  }
+  .row.presets button {
+    padding: 8px 0; font: 14px ui-monospace, monospace;
+    border: 1px solid var(--bd); border-radius: 9px; background: #fff;
+    color: var(--tx); cursor: pointer; transition: .12s;
+  }
+  .row.presets button.on {
+    background: var(--ac); color: #fff; border-color: var(--ac);
+    box-shadow: 0 1px 3px rgba(20,60,110,.25);
+  }
+  .row.scope-row {
+    margin: 0; flex: 0 0 auto; gap: 0; padding: 3px;
+    background: #eef4fb; border: 1px solid #cfe0f2; border-radius: 9px;
+  }
+  .row.scope-row button {
+    padding: 5px 14px; font: 12px system-ui; border: 0; border-radius: 7px;
+    background: transparent; color: var(--tx); cursor: pointer; transition: .12s;
+  }
+  .row.scope-row button.on {
+    background: var(--ac); color: #fff; box-shadow: 0 1px 3px rgba(20,60,110,.25);
+  }
+  button:hover { background: #eaf2fb; }
+  button.on { background: var(--ac); border-color: var(--ac); color: #fff; }
+
+  hr { border: 0; border-top: 1px solid #eef2f6; margin: 14px 16px; }
+
+  /* 普通选项卡片 */
+  label.opt {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 9px 12px; margin: 8px 16px;
+    background: var(--card); border: 1px solid var(--bd); border-radius: 11px;
+  }
+  label.opt span { color: var(--tx); }
+
+  /* 高亮功能卡片 */
+  label.feature {
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 11px 12px; margin: 8px 16px;
+    background: linear-gradient(135deg, #eaf3fc, #f4f9fe);
+    border: 1px solid #cfe0f2; border-radius: 11px;
+    font-weight: 600; color: #0c447c;
+    box-shadow: inset 3px 0 0 var(--ac);
+  }
+  label.feature.block { display: block; box-shadow: none; color: var(--tx); font-weight: 600; }
+
+  input[type=number], select {
+    width: 84px; padding: 4px 7px; border: 1px solid var(--bd);
+    border-radius: 7px; font: 13px system-ui; color: var(--tx); background: #fff;
+  }
+  input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--ac); cursor: pointer; }
+
+  .tip { font-size: 11px; color: var(--mu); line-height: 1.6; padding: 0 16px; margin-top: 6px; }
+  .kbd-row { text-align: center; padding: 11px 16px; background: #fafbfd; border-radius: 0 0 10px 10px; margin-top: 10px; }
+  kbd {
+    background: #eef2f6; border: 1px solid var(--bd); border-radius: 4px;
+    padding: 0 5px; font: 11px ui-monospace, monospace; color: #3a3f47;
+  }
+</style>
+</head>
+<body>
+  <header class="hd">
+    <div class="logo">&#9654;</div>
+    <div>
+      <div class="name">Video Speed Master</div>
+      <div class="sub">视频倍速大师</div>
+    </div>
+  </header>
+
+  <div class="speed">
+    <div class="big" id="val">1.00x</div>
+    <div class="hint" id="site"></div>
+    <input type="range" id="slider" min="0.07" max="16" step="0.01" value="1">
+    <div class="row presets" id="presets">
+      <button data-r="0.5">0.5x</button>
+      <button data-r="1">1x</button>
+      <button data-r="1.5">1.5x</button>
+      <button data-r="2">2x</button>
+      <button data-r="3">3x</button>
+      <button data-r="6">6x</button>
+      <button data-r="8">8x</button>
+      <button data-r="16">16x</button>
+    </div>
+  </div>
+
+  <hr>
+  <label class="opt"><span>步进</span> <input type="number" id="step" min="0.01" max="2" step="0.05"></label>
+  <label class="opt"><span>强制模式（抵抗站点重置）</span> <input type="checkbox" id="force"></label>
+  <label class="opt"><span>记住本站点速度</span> <input type="checkbox" id="remember"></label>
+  <label class="opt"><span>屏幕倍速提示</span> <input type="checkbox" id="osd"></label>
+
+  <hr>
+  <label class="feature"><span>后台播放</span> <input type="checkbox" id="bgplay"></label>
+  <div class="tip" id="bgplayTip">
+    离开标签页或切到别的窗口时，视频仍保持播放，不会被站点自动暂停。
+  </div>
+
+  <hr>
+  <label class="feature"><span>双开防暂停</span> <input type="checkbox" id="dual"></label>
+
+  <hr>
+  <label class="feature">
+    <span>作用范围</span>
+    <div class="row scope-row" id="scope">
+      <button data-s="global">全局</button>
+      <button data-s="tab">当前标签</button>
+    </div>
+  </label>
+  <div class="tip">
+    全局：设置应用到所有标签页；当前标签：仅本标签单独设置（可逐标签调整）。
+  </div>
+
+  <div class="kbd-row">
+    <kbd>Shift+]</kbd> 加速 · <kbd>Shift+[</kbd> 减速 · <kbd>Shift+\</kbd> 复位
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
